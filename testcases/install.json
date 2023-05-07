@@ -8,7 +8,7 @@
       "testspec":
       {
         "node": 4000,
-        "type": "virtual"
+        "machine_type": "virtual"
       }
     }
   ]

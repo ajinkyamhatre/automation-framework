@@ -6,3 +6,5 @@ logging_level_map = {
     "Error": 40
 }
 logging_level = "Debug"
+
+log_location = '.'

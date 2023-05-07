@@ -1,47 +1,17 @@
-import argparse
-import json
-import logging
+from pylib import testcaseLib
 from pylib import global_var
+import time
+import pandas
 
 
-def get_logger():
-    # Create and configure logger
-    logging.basicConfig(filename="newfile.log",
-                        format='%(asctime)s %(message)s',
-                        filemode='w')
+build, env, suite = testcaseLib.get_input()
 
-    # Creating an object
-    global_var.logger = logging.getLogger()
-
-    # Setting the threshold of logger to DEBUG
-    global_var.logger.setLevel(global_var.logging_level_map[global_var.logger])
-    return global_var.logger
-
-
-def get_input():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--build")
-    parser.add_argument("--env")
-    parser.add_argument("--suite")
-    args = parser.parse_args()
-    return args.build, args.env, args.suite
-
-
-def get_testcase(suite_file):
-    with open("testcases/" + suite_file) as json_file:
-        suite_details = json.load(json_file)
-    return suite_details
-
-
-build, env, suite = get_input()
-logger = get_logger()
-
-logger.info(f"Build: {build}, Env: {env}, Suite: {suite}")
-suite_details = get_testcase(suite)
+suite_details = testcaseLib.get_testcase(suite)
 
 suite_name = suite_details["suite name"]
-
+logger = testcaseLib.get_logger(suite_name)
 logger.info(f"Suite Name: {suite_name}")
+current_time = start_time = suite_start_time = time.time()
 
 for test_details in suite_details["test cases"]:
     logger.info(f"running test case: {test_details['test name']}")
@@ -51,3 +21,7 @@ for test_details in suite_details["test cases"]:
     function_call = f"{test_details['test']}(**{test_details['testspec']})"
     logger.debug(function_call)
     eval(function_call)
+    current_time = time.time()
+    logger.info(f"Test case executed in: {current_time - start_time} sec.")
+    start_time = current_time
+logger.info(f"Test suite executed in: {current_time - suite_start_time} sec.")

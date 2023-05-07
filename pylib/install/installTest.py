@@ -1,11 +1,10 @@
 from pylib import global_var
 
-def install_kit(node, type):
-    global_var.logger.info("print log file")
-    global_var.logger.info('node ='+ str(node))
-    global_var.logger.info('type ='+type)
-    # check if kit exists
 
+def install_kit(node, machine_type):
+    global_var.logger.info('node =' + str(node))
+    global_var.logger.info('machine_type =' + machine_type)
+    # check if kit exists
     return True
 
 
