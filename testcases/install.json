@@ -1,0 +1,14 @@
+{
+  "suite name": "install",
+  "test cases": [
+    {
+      "module": "install",
+      "test": "install_func",
+      "testspec":
+      {
+        "node": 4000,
+        "type": "virtual"
+      }
+    }
+  ]
+}
