@@ -4,15 +4,20 @@ import json
 from pylib import global_var
 import smtplib
 import os
+import datetime
 
 
-def get_logger(suite_name):
+def get_date_time():
+    # using now() to get current time
+    current_time = datetime.datetime.now()
+    return current_time.year, current_time.month, current_time.day, current_time.hour, current_time.minute, current_time.second
+
+
+def get_logger():
     # Create and configure logger
-
     logging.basicConfig(filename=f"{global_var.log_location}/test.log",
                         format='%(asctime)s %(message)s',
                         filemode='w')
-
     # Creating an object
     global_var.logger = logging.getLogger()
     # Setting the threshold of logger to DEBUG
@@ -35,7 +40,7 @@ def get_testcase(suite_file):
     return suite_details
 
 
-def send_email(sender_email_id, receiver_email_id, message):
+def send_email(sender_email_id, sender_email_id_password, receiver_email_id, message):
     # creates SMTP session
     smtp = smtplib.SMTP('smtp.gmail.com', 587)
 
@@ -43,10 +48,16 @@ def send_email(sender_email_id, receiver_email_id, message):
     smtp.starttls()
 
     # Authentication
-    smtp.login("softwaretechmart@gmail.com", "sender_email_id_password")
+    smtp.login(sender_email_id, sender_email_id_password)
 
     # sending the mail
     smtp.sendmail(sender_email_id, receiver_email_id, message)
 
     # terminating the session
     smtp.quit()
+
+
+def create_log_dir(suite_name):
+    year, month, day, hour, minute, second = get_date_time()
+    global_var.log_location = f"logs/{year}/{month}/{day}/{hour}-{minute}-{second}/{suite_name}"
+    os.makedirs(global_var.log_location, mode=0o777, exist_ok=True)
