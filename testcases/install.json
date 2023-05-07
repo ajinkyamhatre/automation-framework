@@ -2,8 +2,8 @@
   "suite name": "install",
   "test cases": [
     {
-      "module": "install",
-      "test": "install_func",
+      "module": "pylib.install.installTest",
+      "test": "install_kit",
       "test name": "install 400 on virtual",
       "testspec":
       {

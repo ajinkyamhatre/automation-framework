@@ -1,6 +1,7 @@
 import argparse
 import json
 import logging
+from pylib import global_var
 
 
 def get_logger():
@@ -10,11 +11,11 @@ def get_logger():
                         filemode='w')
 
     # Creating an object
-    logger = logging.getLogger()
+    global_var.logger = logging.getLogger()
 
     # Setting the threshold of logger to DEBUG
-    logger.setLevel(logging.DEBUG)
-    return logger
+    global_var.logger.setLevel(logging.DEBUG)
+    return global_var.logger
 
 
 def get_input():
@@ -44,3 +45,9 @@ logger.info(f"Suite Name: {suite_name}")
 
 for test_details in suite_details["test cases"]:
     logger.info(f"running test case: {test_details['test name']}")
+    import_statement = f"from {test_details['module']} import {test_details['test']}"
+    logger.debug(import_statement)
+    exec(import_statement)
+    function_call = f"{test_details['test']}(**{test_details['testspec']})"
+    logger.debug(function_call)
+    eval(function_call)
