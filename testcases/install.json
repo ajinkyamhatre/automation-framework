@@ -4,6 +4,7 @@
     {
       "module": "install",
       "test": "install_func",
+      "test name": "install 400 on virtual",
       "testspec":
       {
         "node": 4000,

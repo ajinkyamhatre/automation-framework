@@ -2,8 +2,9 @@ import argparse
 import json
 import logging
 
+
 def get_logger():
-# Create and configure logger
+    # Create and configure logger
     logging.basicConfig(filename="newfile.log",
                         format='%(asctime)s %(message)s',
                         filemode='w')
@@ -14,6 +15,7 @@ def get_logger():
     # Setting the threshold of logger to DEBUG
     logger.setLevel(logging.DEBUG)
     return logger
+
 
 def get_input():
     parser = argparse.ArgumentParser()
@@ -41,7 +43,4 @@ suite_name = suite_details["suite name"]
 logger.info(f"Suite Name: {suite_name}")
 
 for test_details in suite_details["test cases"]:
-    logger.info(f"running test case: {test_details['test cases']}")
-    
-
-
+    logger.info(f"running test case: {test_details['test name']}")
