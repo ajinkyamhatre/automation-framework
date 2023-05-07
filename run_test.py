@@ -14,7 +14,7 @@ def get_logger():
     global_var.logger = logging.getLogger()
 
     # Setting the threshold of logger to DEBUG
-    global_var.logger.setLevel(logging.DEBUG)
+    global_var.logger.setLevel(global_var.logging_level_map[global_var.logger])
     return global_var.logger
 
 
