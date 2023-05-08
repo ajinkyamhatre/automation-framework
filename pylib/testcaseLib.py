@@ -30,8 +30,9 @@ def get_input():
     parser.add_argument("--build")
     parser.add_argument("--env")
     parser.add_argument("--suite")
+    parser.add_argument("--sender__email_id_password")
     args = parser.parse_args()
-    return args.build, args.env, args.suite
+    return args.build, args.env, args.suite, args.sender__email_id_password
 
 
 def get_testcase(suite_file):
