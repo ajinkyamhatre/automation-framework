@@ -7,12 +7,19 @@
 
 {% block content %}
   <h3>Suites</h3>
-     {% for module in module_list %}
+
+    <form action="">
+     {% for suite, module in module_list.items %}
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="{{ module.suite }}">
-      <label class="form-check-label" for="{{ module.suite }}">
+      <input class="form-check-input" type="checkbox" value="" id="{{ suite }}">
+      <label class="form-check-label" for="{{ suite }}">
         {{ module.suite }}
       </label>
     </div>
      {% endfor %}
+    </br>
+    <div class="col-12">
+    <button class="btn btn-primary" type="submit">Select Suite</button>
+    </div>
+    </form>
 {% endblock %}

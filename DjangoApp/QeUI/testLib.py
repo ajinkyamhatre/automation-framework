@@ -9,7 +9,7 @@ def get_module_list():
 
 
 def get_module_details():
-    return [get_testcase(module) for module in get_module_list()]
+    return {module: get_testcase(module) for module in get_module_list()}
 
 
 def get_testcase(suite_file):
