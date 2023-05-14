@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends "master.html" %}
 
-<h1>Hello World!</h1>
-<p>Welcome to my first Django project!</p>
-{{ module_list }}
+{% block title %}
+  Dashboard
+{% endblock %}
 
-</body>
-</html>
+
+{% block content %}
+  <h3>Suites</h3>
+     {% for module in module_list %}
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="{{ module.suite }}">
+      <label class="form-check-label" for="{{ module.suite }}">
+        {{ module.suite }}
+      </label>
+    </div>
+     {% endfor %}
+{% endblock %}

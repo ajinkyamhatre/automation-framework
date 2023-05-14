@@ -1,10 +1,10 @@
 {
-  "suite": "install",
+  "suite": "Upgrade",
   "testcases": [
     {
       "module": "pylib.install.installTest",
       "test": "install_kit",
-      "testname": "install 400 on virtual",
+      "testname": "Upgrade 400 on virtual",
       "testspec":
       {
         "node": 4000,
