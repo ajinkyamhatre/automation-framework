@@ -1,0 +1,8 @@
+2023-05-08 00:24:35,611 Suite Name: install
+2023-05-08 00:24:35,611 running test case: install 400 on virtual
+2023-05-08 00:24:35,611 from pylib.install.installTest import install_kit
+2023-05-08 00:24:35,611 install_kit(**{'node': 4000, 'machine_type': 'virtual'})
+2023-05-08 00:24:35,611 node =4000
+2023-05-08 00:24:35,611 machine_type =virtual
+2023-05-08 00:24:38,613 Test case executed in: 3.001706123352051 sec.
+2023-05-08 00:24:38,637 Test suite executed in: 3.001706123352051 sec.

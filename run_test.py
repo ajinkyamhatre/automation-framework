@@ -36,6 +36,6 @@ print(dataframe)
 dataframe.to_csv(global_var.log_location + "/result.csv")
 logger.info(f"Test suite executed in: {current_time - suite_start_time} sec.")
 #calling sendmail ftn
-message = str(dataframe)
-print(sender_email_id_password)
+message = str(123123)
+print(str(dataframe))
 testcaseLib.send_email(global_var.sender_email_id, sender_email_id_password, global_var.receiver_email_id, message)

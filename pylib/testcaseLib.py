@@ -5,6 +5,7 @@ from pylib import global_var
 import smtplib
 import os
 import datetime
+import email
 
 
 def get_date_time():
@@ -30,9 +31,9 @@ def get_input():
     parser.add_argument("--build")
     parser.add_argument("--env")
     parser.add_argument("--suite")
-    parser.add_argument("--sender__email_id_password")
+    parser.add_argument("--sender_email_id_password")
     args = parser.parse_args()
-    return args.build, args.env, args.suite, args.sender__email_id_password
+    return args.build, args.env, args.suite, args.sender_email_id_password
 
 
 def get_testcase(suite_file):
@@ -43,7 +44,7 @@ def get_testcase(suite_file):
 
 def send_email(sender_email_id, sender_email_id_password, receiver_email_id, message):
     # creates SMTP session
-    smtp = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
 
     # start TLS for security
     smtp.starttls()
@@ -52,7 +53,7 @@ def send_email(sender_email_id, sender_email_id_password, receiver_email_id, mes
     smtp.login(sender_email_id, sender_email_id_password)
 
     # sending the mail
-    smtp.sendmail(sender_email_id, receiver_email_id, message)
+    smtp.sendmail(msg=message.encode(), from_addr=sender_email_id, to_addrs=receiver_email_id)
 
     # terminating the session
     smtp.quit()
