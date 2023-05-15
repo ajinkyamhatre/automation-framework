@@ -1,7 +1,7 @@
 import os
 
 import DjangoApp.settings
-import json
+import yaml
 
 
 def get_module_list():
@@ -13,6 +13,6 @@ def get_module_details():
 
 
 def get_testcase(suite_file):
-    with open(DjangoApp.settings.FRAMEWORK_PATH + "/testcases/" + suite_file) as json_file:
-        suite_details = json.load(json_file)
+    with open(DjangoApp.settings.FRAMEWORK_PATH + "/testcases/" + suite_file) as yaml_file:
+        suite_details = yaml.safe_load(yaml_file)
     return suite_details

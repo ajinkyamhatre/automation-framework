@@ -1,6 +1,6 @@
 import logging
 import argparse
-import json
+import yaml
 from pylib import global_var
 import smtplib
 import os
@@ -37,8 +37,8 @@ def get_input():
 
 
 def get_testcase(suite_file):
-    with open("testcases/" + suite_file) as json_file:
-        suite_details = json.load(json_file)
+    with open("testcases/" + suite_file) as yaml_file:
+        suite_details = yaml.safe_load(yaml_file)
     return suite_details
 
 

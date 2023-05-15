@@ -1,0 +1,20 @@
+suite: Install
+testcases:
+- module: pylib.install.installTest
+  test: install_kit
+  testname: install 400 on virtual
+  testspec:
+    node: 4000
+    machine_type: virtual
+- module: pylib.install.installTest
+  test: install_kit
+  testname: install 400 on bm
+  testspec:
+    node: 4000
+    machine_type: bm
+- module: pylib.install.installTest
+  test: install_kit
+  testname: install 10000 on virtual
+  testspec:
+    node: 10000
+    machine_type: virtual

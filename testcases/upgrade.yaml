@@ -1,0 +1,8 @@
+suite: Upgrade
+testcases:
+- module: pylib.install.installTest
+  test: install_kit
+  testname: Upgrade 400 on virtual
+  testspec:
+    node: 4000
+    machine_type: virtual
