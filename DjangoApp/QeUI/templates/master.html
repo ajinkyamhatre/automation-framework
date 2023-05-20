@@ -10,6 +10,9 @@
   {% with request.resolver_match.url_name as url_name %}
   <ul class="nav bg-dark" data-bs-theme="dark">
   <li class="nav-item">
+    <a class="nav-link {% if url_name == 'logs' %}active{% endif %}" href="#">Logs</a>
+  </li>
+    <li class="nav-item">
     <a class="nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="#">Dashboard</a>
   </li>
   <li class="nav-item">

@@ -20,7 +20,6 @@ def run_robot_suite(testcases_file):
     return []
 
 
-
 def get_date_time():
     # using now() to get current time
     current_time = datetime.datetime.now()
@@ -106,5 +105,21 @@ def run_yaml_suite(suite):
     return result_list
 
 
+def get_module_list():
+    return os.listdir("testcases")
+
+
+def get_module_details():
+    return {module: get_testcase(module) for module in get_module_list()}
+
+
+def get_logs_details(path):
+    print(path)
+    if os.path.exists(path):
+        return os.listdir(path)
+    else:
+        return []
+
+
 if __name__ == "__main__":
-    run_robot_testcase("ui.robot")
+    pass
