@@ -1,5 +1,5 @@
 logger = None
-sender_email_id =   "ajinkyamhatre7642@gmail.com"
+sender_email_id = "ajinkyamhatre7642@gmail.com"
 receiver_email_id = "ajinkyamhatre7642@gmail.com"
 logging_level_map = {
     "Debug": 10,
@@ -10,3 +10,5 @@ logging_level_map = {
 logging_level = "Debug"
 
 log_location = '.'
+
+framework = "robot"  # other options could be robot/yaml/json

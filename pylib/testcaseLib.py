@@ -6,6 +6,19 @@ import smtplib
 import os
 import datetime
 import email
+import robot
+import time
+
+
+def run_robot_suite(testcases_file):
+    create_log_dir(testcases_file)
+    logfile = open(global_var.log_location + '/robot.log', 'w')
+    output = robot.run(f"robot-testcases/{testcases_file}", outputdir=global_var.log_location, stdout=logfile)
+    print("************************************** robot output **************************************")
+    print(output)
+    logfile.close()
+    return []
+
 
 
 def get_date_time():
@@ -63,3 +76,35 @@ def create_log_dir(suite_name):
     year, month, day, hour, minute, second = get_date_time()
     global_var.log_location = f"logs/{year}/{month}/{day}/{hour}-{minute}-{second}/{suite_name}"
     os.makedirs(global_var.log_location, mode=0o777, exist_ok=True)
+
+
+def run_yaml_suite(suite):
+    suite_details = get_testcase(suite)
+    suite_name = suite_details["suite name"]
+    create_log_dir(suite_name)
+    logger = get_logger()
+    logger.info(f"Suite Name: {suite_name}")
+    current_time = start_time = suite_start_time = time.time()
+    result_list = list()
+    for test_details in suite_details["test cases"]:
+        logger.info(f"running test case: {test_details['test name']}")
+        import_statement = f"from {test_details['module']} import {test_details['test']}"
+        logger.debug(import_statement)
+        exec(import_statement)
+        function_call = f"{test_details['test']}(**{test_details['testspec']})"
+        logger.debug(function_call)
+        result = eval(function_call)
+        current_time = time.time()
+        logger.info(f"Test case executed in: {current_time - start_time} sec.")
+        result_list.append({
+            "Testcase": test_details['test name'],
+            "Result": "PASS" if result else "FAIL",
+            "Execution Time": current_time - start_time
+        })
+        start_time = current_time
+        logger.info(f"Test suite executed in: {current_time - suite_start_time} sec.")
+    return result_list
+
+
+if __name__ == "__main__":
+    run_robot_testcase("ui.robot")

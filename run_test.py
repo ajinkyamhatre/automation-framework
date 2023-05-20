@@ -1,41 +1,17 @@
 from pylib import testcaseLib
 from pylib import global_var
-import time
 import pandas
 
+build, env, suite_to_run, sender_email_id_password = testcaseLib.get_input()
 
-build, env, suite, sender_email_id_password = testcaseLib.get_input()
-
-suite_details = testcaseLib.get_testcase(suite)
-
-suite_name = suite_details["suite name"]
-testcaseLib.create_log_dir(suite_name)
-logger = testcaseLib.get_logger()
-logger.info(f"Suite Name: {suite_name}")
-current_time = start_time = suite_start_time = time.time()
-result_list = list()
-for test_details in suite_details["test cases"]:
-    logger.info(f"running test case: {test_details['test name']}")
-    import_statement = f"from {test_details['module']} import {test_details['test']}"
-    logger.debug(import_statement)
-    exec(import_statement)
-    function_call = f"{test_details['test']}(**{test_details['testspec']})"
-    logger.debug(function_call)
-    result = eval(function_call)
-    current_time = time.time()
-    logger.info(f"Test case executed in: {current_time - start_time} sec.")
-    result_list.append({
-        "Testcase": test_details['test name'],
-        "Result": "PASS" if result else "FAIL",
-        "Execution Time": current_time - start_time
-    })
-    start_time = current_time
+if global_var.framework == "yaml":
+    result_list = testcaseLib.run_yaml_suite(suite_to_run)
+elif global_var.framework == "robot":
+    result_list = testcaseLib.run_robot_suite(suite_to_run)
+else:
+    result_list = []
 
 dataframe = pandas.DataFrame(result_list)
-print(dataframe)
 dataframe.to_csv(global_var.log_location + "/result.csv")
-logger.info(f"Test suite executed in: {current_time - suite_start_time} sec.")
-#calling sendmail ftn
-message = str(123123)
-print(str(dataframe))
-testcaseLib.send_email(global_var.sender_email_id, sender_email_id_password, global_var.receiver_email_id, message)
+
+# testcaseLib.send_email(global_var.sender_email_id, sender_email_id_password, global_var.receiver_email_id, "test mail")
