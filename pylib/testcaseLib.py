@@ -7,7 +7,7 @@ import os
 import datetime
 import robot
 import time
-
+import sys
 
 def run_robot_suite(testcases_file):
     create_log_dir(testcases_file)
@@ -124,7 +124,7 @@ def submit_job(framework_path, job):
     with open(os.path.join(job_path, job_name), "w") as yaml_file:
         yaml.dump(job, yaml_file)
 
-import sys
+
 def run(job):
     exit_code = os.system(f"{sys.argv[0]} ./run_test.py --build {job['build']} --env {job['env']} --suite {job['suite']}")
     return exit_code
