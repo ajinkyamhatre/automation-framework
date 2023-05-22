@@ -2,7 +2,7 @@ from pylib import testcaseLib
 from pylib import global_var
 import pandas
 
-build, env, suite_to_run, sender_email_id_password = testcaseLib.get_input()
+build, env, suite_to_run = testcaseLib.get_input()
 
 if global_var.framework == "yaml":
     result_list = testcaseLib.run_yaml_suite(suite_to_run)

@@ -42,9 +42,8 @@ def get_input():
     parser.add_argument("--build")
     parser.add_argument("--env")
     parser.add_argument("--suite")
-    parser.add_argument("--sender_email_id_password")
     args = parser.parse_args()
-    return args.build, args.env, args.suite, args.sender_email_id_password
+    return args.build, args.env, args.suite
 
 
 def get_testcase(suite_file, path):
@@ -121,19 +120,14 @@ def get_logs_details(path):
 
 def submit_job(framework_path, job):
     job_path = os.path.join(framework_path, "jobs")
-    job_name = datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M%S") + ".yaml"
-    print(job_name)
+    job_name = "job-" + datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M%S") + ".yaml"
     with open(os.path.join(job_path, job_name), "w") as yaml_file:
         yaml.dump(job, yaml_file)
 
-
+import sys
 def run(job):
-    pid = os.system(" ".join(["./run_test.py",
-                              "--build", job["build"],
-                              "--env", job["env"],
-                              "--suite", job["suite"],
-                              "--sender_email_id_password", job["sender_email_id_password"]]))
-    return pid
+    exit_code = os.system(f"{sys.argv[0]} ./run_test.py --build {job['build']} --env {job['env']} --suite {job['suite']}")
+    return exit_code
 
 
 def get_job_details(framework_path, job):
