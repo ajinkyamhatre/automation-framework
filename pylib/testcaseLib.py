@@ -5,7 +5,6 @@ from pylib import global_var
 import smtplib
 import os
 import datetime
-import email
 import robot
 import time
 
@@ -48,8 +47,8 @@ def get_input():
     return args.build, args.env, args.suite, args.sender_email_id_password
 
 
-def get_testcase(suite_file):
-    with open("testcases/" + suite_file) as yaml_file:
+def get_testcase(suite_file, path):
+    with open(os.path.join(path + "/testcases/", suite_file)) as yaml_file:
         suite_details = yaml.safe_load(yaml_file)
     return suite_details
 
@@ -78,7 +77,7 @@ def create_log_dir(suite_name):
 
 
 def run_yaml_suite(suite):
-    suite_details = get_testcase(suite)
+    suite_details = get_testcase(suite, ".")
     suite_name = suite_details["suite name"]
     create_log_dir(suite_name)
     logger = get_logger()
@@ -105,20 +104,49 @@ def run_yaml_suite(suite):
     return result_list
 
 
-def get_module_list():
-    return os.listdir("testcases")
+def get_module_list(path):
+    return os.listdir(path + "/testcases")
 
 
-def get_module_details():
-    return {module: get_testcase(module) for module in get_module_list()}
+def get_module_details(path):
+    return {module: get_testcase(module, path) for module in get_module_list(path)}
 
 
 def get_logs_details(path):
-    print(path)
     if os.path.exists(path):
         return os.listdir(path)
     else:
         return []
+
+
+def submit_job(framework_path, job):
+    job_path = os.path.join(framework_path, "jobs")
+    job_name = datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M%S") + ".yaml"
+    print(job_name)
+    with open(os.path.join(job_path, job_name), "w") as yaml_file:
+        yaml.dump(job, yaml_file)
+
+
+def run(job):
+    pid = os.system(" ".join(["./run_test.py",
+                              "--build", job["build"],
+                              "--env", job["env"],
+                              "--suite", job["suite"],
+                              "--sender_email_id_password", job["sender_email_id_password"]]))
+    return pid
+
+
+def get_job_details(framework_path, job):
+    with open(os.path.join(framework_path + "/jobs/", job)) as yaml_file:
+        job_details = yaml.safe_load(yaml_file)
+    return job_details
+
+
+def get_oldest_job():
+    jobs_list = os.listdir("jobs")
+    if jobs_list:
+        jobs_list.sort()
+        return jobs_list[0]
 
 
 if __name__ == "__main__":

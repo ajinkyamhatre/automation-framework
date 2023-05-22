@@ -1,0 +1,16 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Run Suite
+{% endblock %}
+
+
+{% block content %}
+  <h3>Run Suite</h3>
+    <form action="" method = "POST" >
+        {% csrf_token %}
+     {{ form }}
+      </br></br>
+    <button class="btn btn-primary" type="submit">Run</button>
+    </form>
+{% endblock %}
