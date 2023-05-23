@@ -11,4 +11,4 @@ logging_level = "Debug"
 
 log_location = '.'
 
-framework = "robot"  # other options could be robot/yaml/json
+framework = "yaml"  # other options could be robot/yaml/json

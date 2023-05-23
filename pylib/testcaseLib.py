@@ -7,7 +7,8 @@ import os
 import datetime
 import robot
 import time
-import sys
+import pandas
+
 
 def run_robot_suite(testcases_file):
     create_log_dir(testcases_file)
@@ -77,14 +78,14 @@ def create_log_dir(suite_name):
 
 def run_yaml_suite(suite):
     suite_details = get_testcase(suite, ".")
-    suite_name = suite_details["suite name"]
+    suite_name = suite_details["suite"]
     create_log_dir(suite_name)
     logger = get_logger()
     logger.info(f"Suite Name: {suite_name}")
     current_time = start_time = suite_start_time = time.time()
     result_list = list()
-    for test_details in suite_details["test cases"]:
-        logger.info(f"running test case: {test_details['test name']}")
+    for test_details in suite_details["testcases"]:
+        logger.info(f"running test case: {test_details['testname']}")
         import_statement = f"from {test_details['module']} import {test_details['test']}"
         logger.debug(import_statement)
         exec(import_statement)
@@ -94,7 +95,7 @@ def run_yaml_suite(suite):
         current_time = time.time()
         logger.info(f"Test case executed in: {current_time - start_time} sec.")
         result_list.append({
-            "Testcase": test_details['test name'],
+            "Testcase": test_details['testname'],
             "Result": "PASS" if result else "FAIL",
             "Execution Time": current_time - start_time
         })
@@ -113,7 +114,7 @@ def get_module_details(path):
 
 def get_logs_details(path):
     if os.path.exists(path):
-        return os.listdir(path)
+        return [(folder, os.path.join(path, folder)) for folder in os.listdir(path)]
     else:
         return []
 
@@ -125,9 +126,18 @@ def submit_job(framework_path, job):
         yaml.dump(job, yaml_file)
 
 
-def run(job):
-    exit_code = os.system(f"{sys.argv[0]} ./run_test.py --build {job['build']} --env {job['env']} --suite {job['suite']}")
-    return exit_code
+def run_test(build, env, suite_to_run):
+    if global_var.framework == "yaml":
+        result_list = run_yaml_suite(suite_to_run)
+    elif global_var.framework == "robot":
+        result_list = run_robot_suite(suite_to_run)
+    else:
+        result_list = []
+
+    dataframe = pandas.DataFrame(result_list)
+    dataframe.to_csv(global_var.log_location + "/result.csv")
+
+    # testcaseLib.send_email(global_var.sender_email_id, sender_email_id_password, global_var.receiver_email_id, "test mail")
 
 
 def get_job_details(framework_path, job):

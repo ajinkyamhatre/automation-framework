@@ -1,12 +1,12 @@
 import os.path
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 import sys
 
 from DjangoApp import settings
-from .forms import SelectSuiteForm
+from .forms import SelectSuiteForm, SelectDateForm
 
 sys.path.append(settings.FRAMEWORK_PATH)
 from pylib.testcaseLib import get_date_time, get_logs_details, submit_job
@@ -16,14 +16,15 @@ def index_page(request):
     context = {"form": SelectSuiteForm()}
     if request.POST:
         submit_job(settings.FRAMEWORK_PATH, dict(request.POST))
-        # redirect to run route
+        return redirect(logs_view)
     return render(request, "run.html", context)
 
 
 def logs_view(request):
     year, month, day, *_ = get_date_time()
     path = os.path.join(settings.FRAMEWORK_PATH, f"logs/{year}/{month}/{day}")
-    context = {"log_folder_list": get_logs_details(path)}
+    date_form = SelectDateForm()
+    context = {"log_folder_list": get_logs_details(path), "date_form": date_form}
     template = loader.get_template("logs.html")
     return HttpResponse(template.render(context))
 
@@ -31,3 +32,13 @@ def logs_view(request):
 def setup_view(request):
     template = loader.get_template("setup.html")
     return HttpResponse(template.render())
+
+
+def logs_details(request, log_location):
+    text = "log not found!"
+    module_folder = os.listdir(log_location)[0]
+    log_location = os.path.join(log_location, module_folder)
+    if os.path.exists(log_location + "/test.log"):
+        with open(log_location + "/test.log") as log_file:
+            text = log_file.read()
+    return HttpResponse(text.replace("\n", "</br></br>"))
