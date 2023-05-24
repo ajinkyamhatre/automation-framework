@@ -13,6 +13,7 @@
 {% endfor %}
 </br>
     <form action="" method="POST">
+        {% csrf_token %}
     {{ date_form }}
     <button class="btn btn-primary" type="submit">Select Date</button>
     </form>

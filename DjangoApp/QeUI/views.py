@@ -22,11 +22,13 @@ def index_page(request):
 
 def logs_view(request):
     year, month, day, *_ = get_date_time()
-    path = os.path.join(settings.FRAMEWORK_PATH, f"logs/{year}/{month}/{day}")
     date_form = SelectDateForm()
+    if request.POST:
+        year, month, day = request.POST["year"], request.POST["month"], request.POST["day"]
+        print(year, month, day)
+    path = os.path.join(settings.FRAMEWORK_PATH, f"logs/{year}/{month}/{day}")
     context = {"log_folder_list": get_logs_details(path), "date_form": date_form}
-    template = loader.get_template("logs.html")
-    return HttpResponse(template.render(context))
+    return render(request, "logs.html", context)
 
 
 def setup_view(request):
