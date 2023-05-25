@@ -6,10 +6,10 @@ from django.template import loader
 import sys
 
 from DjangoApp import settings
-from .forms import SelectSuiteForm, SelectDateForm
+from .forms import SelectSuiteForm, SelectDateForm, get_dynamic_form
 
 sys.path.append(settings.FRAMEWORK_PATH)
-from pylib.testcaseLib import get_date_time, get_logs_details, submit_job
+from pylib.testcaseLib import get_date_time, get_logs_details, submit_job, get_func_doc
 
 
 def index_page(request):
@@ -44,3 +44,11 @@ def logs_details(request, log_location):
         with open(log_location + "/test.log") as log_file:
             text = log_file.read()
     return HttpResponse(text.replace("\n", "</br></br>"))
+
+
+def create_testcase(request):
+    form_spec = get_func_doc("pylib.install.installTest", "install_kit")
+    form = get_dynamic_form(form_spec)
+    context = {"form": form}
+    return render(request, "create_testcase.html", context)
+

@@ -8,6 +8,7 @@ import datetime
 import robot
 import time
 import pandas
+from inspect import getmembers, isfunction
 
 
 def run_robot_suite(testcases_file):
@@ -141,16 +142,48 @@ def run_test(build, env, suite_to_run):
 
 
 def get_job_details(framework_path, job):
+    """
+    This function returns job details
+    :param framework_path: path of automation framework
+    :param job: name of job file
+    :return: returns details of job in the form of dict
+    """
     with open(os.path.join(framework_path + "/jobs/", job)) as yaml_file:
         job_details = yaml.safe_load(yaml_file)
     return job_details
 
 
 def get_oldest_job():
+    """
+    This function return first submited job
+    :return: job file name
+    """
     jobs_list = os.listdir("jobs")
     if jobs_list:
         jobs_list.sort()
         return jobs_list[0]
+
+
+def get_func_doc(module, test):
+    """
+    This function is used to get list of param of particular function for creating form.
+    :param module: module name
+    :param test: test function name
+    :return: doc string in the form of dict
+    """
+    import_statement = f"from {module} import {test}"
+    exec(import_statement)
+    doc = eval(f"{test}.__doc__")
+    return yaml.safe_load(doc)
+
+
+def get_function_list(module):
+    """
+    This function is used to return list of function defined in given module
+    :param module: complete path of a module
+    :return: list of function defied in that module
+    """
+    return getmembers(eval(module), isfunction)
 
 
 if __name__ == "__main__":

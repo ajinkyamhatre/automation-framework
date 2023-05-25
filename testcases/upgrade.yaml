@@ -1,6 +1,6 @@
 suite: Upgrade
 testcases:
-- module: pylib.install.installTest
+- module: pylib.testcaseDef.installTest
   test: install_kit
   testname: Upgrade 400 on virtual
   testspec:
