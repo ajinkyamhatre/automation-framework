@@ -1,1 +1,39 @@
-{{ form }}
+{% extends "master.html" %}
+{% block title %}
+  Create Test Suite
+{% endblock %}
+
+{% block content %}
+  <h3>
+      Create Test Case of {{ test }}:
+  </h3>
+<div class="card">
+  <div class="card-body">
+    <form action="" method = "POST" >
+        {% csrf_token %}
+        {{ form }}
+        </br></br>
+        <button class="btn btn-primary" type="submit">Add Test</button>
+    </form>
+  </div>
+</div>
+</br>
+<div class="card">
+  <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item active" aria-current="true">Test Case List</li>
+          {% for test_def in testcases %}
+            <li class="list-group-item">{{ test_def.name.0 }}</li>
+          {% endfor %}
+      </ul>
+  </div>
+</div>
+</br>
+<form action="{% url 'createSuite' test=test %}" method = "POST" >
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input name="suite_name" type="text" class="form-control" placeholder="Suite Name" aria-label="Suite Name" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Create</button>
+    </div>
+</form>
+{% endblock %}

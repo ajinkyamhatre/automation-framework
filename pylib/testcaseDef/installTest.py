@@ -25,7 +25,7 @@ def install_kit(node, machine_type):
 def uninstall_kit(keep_kit):
     """
     keep_kit:
-        type: ChoiceField
+        type: BooleanField
         label: Do not delete setup
         choices:
     """

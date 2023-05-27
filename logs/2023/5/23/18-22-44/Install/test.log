@@ -1,0 +1,30 @@
+2023-05-23 18:22:44,973 Suite Name: Install
+2023-05-23 18:22:44,973 running test case: install 400 on virtual
+2023-05-23 18:22:44,973 from pylib.install.installTest import install_kit
+2023-05-23 18:22:44,978 install_kit(**{'node': 4000, 'machine_type': 'virtual'})
+2023-05-23 18:22:44,978 node =4000
+2023-05-23 18:22:44,978 machine_type =virtual
+2023-05-23 18:22:47,983 Test case executed in: 3.010857105255127 sec.
+2023-05-23 18:22:47,983 Test suite executed in: 3.010857105255127 sec.
+2023-05-23 18:22:47,983 running test case: install 400 on bm
+2023-05-23 18:22:47,983 from pylib.install.installTest import install_kit
+2023-05-23 18:22:47,983 install_kit(**{'node': 4000, 'machine_type': 'bm'})
+2023-05-23 18:22:47,983 node =4000
+2023-05-23 18:22:47,990 machine_type =bm
+2023-05-23 18:22:50,993 Test case executed in: 3.0091323852539062 sec.
+2023-05-23 18:22:50,993 Test suite executed in: 6.019989490509033 sec.
+2023-05-23 18:22:50,993 running test case: install 10000 on virtual
+2023-05-23 18:22:50,993 from pylib.install.installTest import install_kit
+2023-05-23 18:22:50,993 install_kit(**{'node': 10000, 'machine_type': 'virtual'})
+2023-05-23 18:22:50,993 node =10000
+2023-05-23 18:22:50,993 machine_type =virtual
+2023-05-23 18:22:53,999 Test case executed in: 3.005981683731079 sec.
+2023-05-23 18:22:53,999 Test suite executed in: 9.025971174240112 sec.
+2023-05-23 18:57:02,225 Suite Name: Upgrade
+2023-05-23 18:57:02,232 running test case: Upgrade 400 on virtual
+2023-05-23 18:57:02,232 from pylib.install.installTest import install_kit
+2023-05-23 18:57:02,234 install_kit(**{'node': 4000, 'machine_type': 'virtual'})
+2023-05-23 18:57:02,243 node =4000
+2023-05-23 18:57:02,243 machine_type =virtual
+2023-05-23 18:57:05,254 Test case executed in: 3.02237868309021 sec.
+2023-05-23 18:57:05,254 Test suite executed in: 3.02237868309021 sec.

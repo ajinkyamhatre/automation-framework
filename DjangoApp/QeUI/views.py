@@ -6,10 +6,10 @@ from django.template import loader
 import sys
 
 from DjangoApp import settings
-from .forms import SelectSuiteForm, SelectDateForm, get_dynamic_form
+from .forms import SelectSuiteForm, SelectDateForm, get_dynamic_form, parse_form_data
 
 sys.path.append(settings.FRAMEWORK_PATH)
-from pylib.testcaseLib import get_date_time, get_logs_details, submit_job, get_func_doc
+from pylib.testcaseLib import get_date_time, get_logs_details, submit_job, get_func_doc, get_function_to_module_map, create_suite
 
 
 def index_page(request):
@@ -46,9 +46,29 @@ def logs_details(request, log_location):
     return HttpResponse(text.replace("\n", "</br></br>"))
 
 
-def create_testcase(request):
-    form_spec = get_func_doc("pylib.install.installTest", "install_kit")
+def testcase_list_view(request):
+    function_to_module_map = get_function_to_module_map(settings.FRAMEWORK_PATH)
+    context = {"function_to_module_map": function_to_module_map}
+    respo = render(request, "testcase_list.html", context)
+    request.session["testcases"] = list()
+    return respo
+
+
+def create_testcase(request, test):
+    module = get_function_to_module_map(settings.FRAMEWORK_PATH)[test]
+    form_spec = get_func_doc(module, test)
     form = get_dynamic_form(form_spec)
-    context = {"form": form}
+    if request.POST:
+        request.session["testcases"] = request.session["testcases"] + [parse_form_data(form_spec, dict(request.POST))]
+    context = {"form": form, "testcases": request.session["testcases"], "test": test}
     return render(request, "create_testcase.html", context)
+
+
+def create_suite_view(request, test):
+    suite_name = request.POST.get("suite_name")
+    create_suite(test, request.session["testcases"], suite_name, settings.FRAMEWORK_PATH)
+    return redirect(index_page)
+
+
+
 

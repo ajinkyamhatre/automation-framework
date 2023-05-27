@@ -22,7 +22,7 @@ class SelectDateForm(forms.Form):
 
 
 def get_dynamic_form(param_dict):
-    form_params = dict()
+    form_params = {"name": forms.CharField()}
     for param, param_spec in param_dict.items():
         if param_spec['type'].strip() == "ChoiceField":
             form_params[param] = eval(f"forms.{param_spec['type']}(label='{param_spec['label']}', choices={tuple((c, c) for c in param_spec['choices'])})")
@@ -30,3 +30,12 @@ def get_dynamic_form(param_dict):
             form_params[param] = eval(f"forms.{param_spec['type']}(label='{param_spec['label']}')")
     dynamicForm = type("dynamicForm", (forms.Form,), form_params)
     return dynamicForm
+
+
+def parse_form_data(form_spec, form_data):
+    parsed_data = {
+        "name": form_data["name"][0]
+    }
+    for field in form_spec:
+        parsed_data[field] = form_data[field][0]
+    return parsed_data

@@ -183,7 +183,41 @@ def get_function_list(module):
     :param module: complete path of a module
     :return: list of function defied in that module
     """
+    exec(f"import {module}")
     return getmembers(eval(module), isfunction)
+
+
+def get_function_to_module_map(framework_path):
+    """
+    this function returns function to module map
+    :return:
+    """
+    function_to_module_map = dict()
+    for module in os.listdir(framework_path + "/pylib/testcaseDef"):
+        module_full_path = f"pylib.testcaseDef.{module.split('.py')[0]}"
+        for func in get_function_list(module_full_path):
+            function_to_module_map[func[0]] = module_full_path
+    return function_to_module_map
+
+
+def create_suite(test, test_data, suite_name, framework_path):
+    module = get_function_to_module_map(framework_path)[test]
+    test_suite = {
+        "suite": suite_name,
+        "testcases": []
+    }
+    for test_spec in test_data:
+        test_name = test_spec["name"]
+        del test_spec["name"]
+        test_suite["testcases"].append({
+                                        "module": module,
+                                        "test": test,
+                                        "testname": test_name,
+                                        "testspec": test_spec
+                                        })
+    yaml_target_path = framework_path + f"/testcases/{suite_name.strip().replace(' ', '_')}.yaml"
+    with open(yaml_target_path, 'w') as file:
+        yaml.dump(test_suite, file)
 
 
 if __name__ == "__main__":
