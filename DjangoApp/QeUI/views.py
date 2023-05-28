@@ -10,6 +10,8 @@ from .forms import SelectSuiteForm, SelectDateForm, get_dynamic_form, parse_form
 
 sys.path.append(settings.FRAMEWORK_PATH)
 from pylib.testcaseLib import get_date_time, get_logs_details, submit_job, get_func_doc, get_function_to_module_map, create_suite
+from pylib.configLib import get_spec_file
+import pylib.global_var
 
 
 def index_page(request):
@@ -24,8 +26,7 @@ def logs_view(request):
     year, month, day, *_ = get_date_time()
     date_form = SelectDateForm()
     if request.POST:
-        year, month, day = request.POST["year"], request.POST["month"], request.POST["day"]
-        print(year, month, day)
+        year, month, day = request.POST["date_year"][0], request.POST["date_month"][0], request.POST["date_day"][0]
     path = os.path.join(settings.FRAMEWORK_PATH, f"logs/{year}/{month}/{day}")
     context = {"log_folder_list": get_logs_details(path), "date_form": date_form}
     return render(request, "logs.html", context)
@@ -69,6 +70,12 @@ def create_suite_view(request, test):
     create_suite(test, request.session["testcases"], suite_name, settings.FRAMEWORK_PATH)
     return redirect(index_page)
 
+
+def testbed_spec_view(request):
+    spec_data = get_spec_file(pylib.global_var.release, settings.FRAMEWORK_PATH)
+    spec_forms = {key: get_dynamic_form(value) for key, value in spec_data.items()}
+    context = {"spec_forms": spec_forms}
+    return render(request, "testbed_spec.html", context)
 
 
 

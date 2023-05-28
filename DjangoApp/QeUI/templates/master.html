@@ -13,16 +13,13 @@
     <a class="nav-link {% if url_name == 'logs' %}active{% endif %}" href="{% url 'logs' %}">Logs</a>
   </li>
    <li class="nav-item">
-    <a class="nav-link {% if url_name == 'logs' %}active{% endif %}" href="{% url 'testcaseList' %}">Create Test</a>
+    <a class="nav-link {% if url_name == 'testcaseList' %}active{% endif %}" href="{% url 'testcaseList' %}">Create Test</a>
   </li>
     <li class="nav-item">
-    <a class="nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+    <a class="nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Run Test</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {% if url_name == 'settings' %}active{% endif %}" href="{% url 'logs' %}">Settings</a>
-  </li>
-  <li class="nav-item">
-        <a class="nav-link {% if url_name == 'setup' %}active{% endif %}" href="{% url 'logs' %}">Setup Details</a>
+        <a class="nav-link {% if url_name == 'testbedSpec' %}active{% endif %}" href="{% url 'testbedSpec' %}">Setup Details</a>
   </li>
 </ul>
 {% endwith %}

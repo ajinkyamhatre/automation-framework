@@ -35,17 +35,18 @@ def get_logger():
     # Creating an object
     global_var.logger = logging.getLogger()
     # Setting the threshold of logger to DEBUG
-    global_var.logger.setLevel(global_var.logging_level_map[global_var.logging_level])
+    global_var.logger.setLevel(global_var.LOG_LEVEL_MAP[global_var.logging_level])
     return global_var.logger
 
 
 def get_input():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--mode")
     parser.add_argument("--build")
     parser.add_argument("--env")
     parser.add_argument("--suite")
     args = parser.parse_args()
-    return args.build, args.env, args.suite
+    return args.mode, args.build, args.env, args.suite
 
 
 def get_testcase(suite_file, path):
@@ -54,18 +55,18 @@ def get_testcase(suite_file, path):
     return suite_details
 
 
-def send_email(sender_email_id, sender_email_id_password, receiver_email_id, message):
+def send_email(receiver_email_id, message):
     # creates SMTP session
-    smtp = smtplib.SMTP('smtp-relay.sendinblue.com', 587)
+    smtp = smtplib.SMTP(global_var.mail_server, 587)
 
     # start TLS for security
     smtp.starttls()
 
     # Authentication
-    smtp.login(sender_email_id, sender_email_id_password)
+    smtp.login(global_var.sender_email_id, global_var.sender_email_id_password)
 
     # sending the mail
-    smtp.sendmail(msg=message.encode(), from_addr=sender_email_id, to_addrs=receiver_email_id)
+    smtp.sendmail(msg=message.encode(), from_addr=global_var.sender_email_id, to_addrs=receiver_email_id)
 
     # terminating the session
     smtp.quit()

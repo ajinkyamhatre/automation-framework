@@ -1,18 +1,17 @@
-nodes:
-  - node1:
-     username:
-       type: CharField
-       label: Username of the Node
-       choices:
-     password:
-       type: PasswordField
-       label: SSH Password
+node:
+   username:
+     type: CharField
+     label: Username of the Node
+     choices:
+   password:
+     type: CharField
+     label: SSH Password
 mail_server:
   url:
-    type: urlField
+    type: URLField
     label: URL of Mail Server
   username:
-    type: charField
+    type: CharField
     label: Username
 
-      
+

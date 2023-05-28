@@ -1,8 +1,0 @@
-build:
-- '555'
-csrfmiddlewaretoken:
-- zLiZ122s4dtQ9g7b9bubz7FsZJ5bGlDDcDVwdwkrYIyXmHAdGqcWVoY5a18umNiy
-env:
-- BM
-suite:
-- suite_bbbbb.yaml

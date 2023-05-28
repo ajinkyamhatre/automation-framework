@@ -16,9 +16,7 @@ class SelectSuiteForm(forms.Form):
 
 
 class SelectDateForm(forms.Form):
-    year = forms.ChoiceField(choices=((y, y) for y in range(2022, 2025)))
-    month = forms.ChoiceField(choices=((m, m) for m in range(1, 13)))
-    day = forms.ChoiceField(choices=((d, d) for d in range(1, 32)))
+    date = forms.DateField(widget=forms.SelectDateWidget)
 
 
 def get_dynamic_form(param_dict):
