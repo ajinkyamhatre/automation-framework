@@ -3,7 +3,8 @@ Automation framework for QA testing.
 
 To run the UI use bellow commands:
 
-```
-$ cd DjangoApp/DjangoApp
-$ python manager.py runserver
-```
+1. CD to the directory:
+`cd DjangoApp/DjangoApp`
+
+2. Run Server:
+`python manager.py runserver`
