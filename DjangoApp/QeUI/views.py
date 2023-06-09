@@ -43,8 +43,11 @@ def logs_details(request, log_location):
     log_location = os.path.join(log_location, module_folder)
     if os.path.exists(log_location + "/test.log"):
         with open(log_location + "/test.log") as log_file:
-            text = log_file.read()
-    return HttpResponse(text.replace("\n", "</br></br>"))
+            text = log_file.read().replace("\n", "</br></br>")
+    elif os.path.exists(log_location + "/log.html"):
+        with open(log_location + "/log.html", encoding="utf8") as fd:
+            text = fd.read()
+    return HttpResponse(text)
 
 
 def testcase_list_view(request):

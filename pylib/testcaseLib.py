@@ -107,7 +107,11 @@ def run_yaml_suite(suite):
 
 
 def get_module_list(path):
-    return os.listdir(path + "/testcases")
+    framework_to_testcase_map = {
+        "yaml": "/testcases",
+        "robot": "/robot-testcases",
+    }
+    return os.listdir(path + framework_to_testcase_map[global_var.framework])
 
 
 def get_module_details(path):
