@@ -6,12 +6,19 @@ from DjangoApp import settings
 
 sys.path.append(settings.FRAMEWORK_PATH)
 from pylib.testcaseLib import get_module_list
+import requests
+
+
+def get_jenkins_builds():
+    job_details = requests.get(f"{settings.JENKINS}/job/Jarvis-CICD/api/json", auth=(settings.JENKINS_USER, settings.JENKINS_PASSWORD))
+    print(job_details)
+    return job_details.json()["builds"]
 
 
 # creating a form
 class SelectSuiteForm(forms.Form):
     env = forms.ChoiceField(choices=(("virtual", "Virtual"), ("BM", "BM")))
-    build = forms.IntegerField()
+    build = forms.ChoiceField(choices=((build["number"], build["number"]) for build in get_jenkins_builds()))
     suite = forms.ChoiceField(choices=((suite, suite) for suite in get_module_list(settings.FRAMEWORK_PATH)))
 
 
@@ -23,7 +30,8 @@ def get_dynamic_form(param_dict):
     form_params = {"name": forms.CharField()}
     for param, param_spec in param_dict.items():
         if param_spec['type'].strip() == "ChoiceField":
-            form_params[param] = eval(f"forms.{param_spec['type']}(label='{param_spec['label']}', choices={tuple((c, c) for c in param_spec['choices'])})")
+            form_params[param] = eval(
+                f"forms.{param_spec['type']}(label='{param_spec['label']}', choices={tuple((c, c) for c in param_spec['choices'])})")
         else:
             form_params[param] = eval(f"forms.{param_spec['type']}(label='{param_spec['label']}')")
     dynamicForm = type("dynamicForm", (forms.Form,), form_params)

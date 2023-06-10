@@ -80,5 +80,9 @@ def testbed_spec_view(request):
     context = {"spec_forms": spec_forms}
     return render(request, "testbed_spec.html", context)
 
+def jenkins_view(request):
+    context = {"spec_forms": spec_forms}
+    return render(request, "jenkins.html", context)
+
 
 

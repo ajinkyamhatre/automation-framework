@@ -10,4 +10,5 @@ urlpatterns = [
     path("testcaseList/", views.testcase_list_view, name="testcaseList"),
     path("createSuite/<test>", views.create_suite_view, name="createSuite"),
     path("testbedSpec/", views.testbed_spec_view, name="testbedSpec"),
+    path("Jenkins/", views.jenkins_view, name="jenkins"),
 ]
