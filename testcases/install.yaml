@@ -1,20 +1,31 @@
 suite: Install
 testcases:
-- module: pylib.testcaseDef.installTest
-  test: install_kit
-  testname: install 400 on virtual
+  - test: Install 400 on virtual
+    steps:
+      - install_kit_on_4000
+      - cleanup
+
+  - test: Install 300 on virtual
+    steps:
+      - install_kit_on_3000
+      - cleanup
+
+install_kit_on_4000:
+  module: pylib.testcaseDef.installTest
+  func: install_kit
   testspec:
     node: 4000
     machine_type: virtual
-- module: pylib.testcaseDef.installTest
-  test: install_kit
-  testname: install 400 on bm
+
+install_kit_on_3000:
+  module: pylib.testcaseDef.installTest
+  func: install_kit
   testspec:
-    node: 4000
-    machine_type: bm
-- module: pylib.testcaseDef.installTest
-  test: install_kit
-  testname: install 10000 on virtual
-  testspec:
-    node: 10000
+    node: 3000
     machine_type: virtual
+
+cleanup:
+  module: pylib.testcaseDef.installTest
+  func: uninstall_kit
+  testspec:
+    keep_kit: False

@@ -87,17 +87,20 @@ def run_yaml_suite(suite):
     current_time = start_time = suite_start_time = time.time()
     result_list = list()
     for test_details in suite_details["testcases"]:
-        logger.info(f"running test case: {test_details['testname']}")
-        import_statement = f"from {test_details['module']} import {test_details['test']}"
-        logger.debug(import_statement)
-        exec(import_statement)
-        function_call = f"{test_details['test']}(**{test_details['testspec']})"
-        logger.debug(function_call)
-        result = eval(function_call)
+        logger.info(f"running test case: {test_details['test']}")
+        result = True
+        for test_step in test_details['steps']:
+            step_details = suite_details[test_step]
+            import_statement = f"from {step_details['module']} import {step_details['func']}"
+            logger.debug(import_statement)
+            exec(import_statement)
+            function_call = f"{step_details['func']}(**{step_details['testspec']})"
+            logger.debug(function_call)
+            result = eval(function_call) and result
         current_time = time.time()
         logger.info(f"Test case executed in: {current_time - start_time} sec.")
         result_list.append({
-            "Testcase": test_details['testname'],
+            "Testcase": test_details['test'],
             "Result": "PASS" if result else "FAIL",
             "Execution Time": current_time - start_time
         })
@@ -127,6 +130,8 @@ def get_logs_details(path):
 
 def submit_job(framework_path, job):
     job_path = os.path.join(framework_path, "jobs")
+    if not os.path.exists(job_path):
+        os.mkdir(job_path)
     job_name = "job-" + datetime.datetime.strftime(datetime.datetime.now(), "%Y%m%d%H%M%S") + ".yaml"
     with open(os.path.join(job_path, job_name), "w") as yaml_file:
         yaml.dump(job, yaml_file)
@@ -163,7 +168,7 @@ def get_oldest_job():
     This function return first submited job
     :return: job file name
     """
-    jobs_list = os.listdir("jobs")
+    jobs_list = os.listdir("jobs") if os.path.exists("jobs") else []
     if jobs_list:
         jobs_list.sort()
         return jobs_list[0]

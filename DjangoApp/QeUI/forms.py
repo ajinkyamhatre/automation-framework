@@ -10,9 +10,14 @@ import requests
 
 
 def get_jenkins_builds():
-    job_details = requests.get(f"{settings.JENKINS}/job/Jarvis-CICD/api/json", auth=(settings.JENKINS_USER, settings.JENKINS_PASSWORD))
-    print(job_details)
-    return job_details.json()["builds"]
+    builds = [{"number": "007"}]
+    try:
+        job_details = requests.get(f"{settings.JENKINS}/job/Jarvis-CICD/api/json", auth=(settings.JENKINS_USER, settings.JENKINS_PASSWORD))
+        print(job_details)
+        builds = job_details.json()["builds"]
+    except:
+        pass
+    return builds
 
 
 # creating a form

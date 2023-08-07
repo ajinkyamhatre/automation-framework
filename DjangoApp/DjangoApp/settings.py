@@ -117,4 +117,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-FRAMEWORK_PATH = "C:\\Users\\ajink\\automation-framework"
+FRAMEWORK_PATH = "C:\\Users\\ajink\\Desktop\\automation-framework"
+
+JENKINS = None
+
+JENKINS_USER = 'root'
+
+JENKINS_PASSWORD = 'root'

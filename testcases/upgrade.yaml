@@ -1,8 +1,40 @@
 suite: Upgrade
 testcases:
-- module: pylib.testcaseDef.installTest
-  test: install_kit
-  testname: Upgrade 400 on virtual
+  - test: Upgrade 400 on virtual
+    steps:
+      - install_kit_on_4000
+      - upgrade
+      - cleanup
+
+  - test: Upgrade 300 on virtual
+    steps:
+      - install_kit_on_3000
+      - upgrade
+      - cleanup
+
+install_kit_on_4000:
+  module: pylib.testcaseDef.installTest
+  func: install_kit
   testspec:
     node: 4000
     machine_type: virtual
+
+install_kit_on_3000:
+  module: pylib.testcaseDef.installTest
+  func: install_kit
+  testspec:
+    node: 3000
+    machine_type: virtual
+
+upgrade:
+  module: pylib.testcaseDef.upgradeTest
+  func: upgrade
+  testspec:
+    node: 3
+    machine_type: bm
+
+cleanup:
+  module: pylib.testcaseDef.installTest
+  func: uninstall_kit
+  testspec:
+    keep_kit: False
