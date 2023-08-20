@@ -1,0 +1,68 @@
+{% extends "master.html" %}
+{% block title %}
+  Test List
+{% endblock %}
+
+{% block content %}
+
+
+<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
+
+    $(document).ready(function() {
+
+      $(".add-more").click(function(){
+          var html = $(".copy").html();
+          $(".after-add-more").after(html);
+      });
+
+      $("body").on("click",".remove",function(){
+          $(this).parents(".control-group").remove();
+      });
+
+    });
+
+</script>
+
+<div class="card">
+  <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item active" aria-current="true"><h3>Create Test:</h3></li>
+        <div class="container">
+            </br>
+          <div class="panel panel-default">
+            <div class="panel-body">
+                <form action="" >
+                <div class="input-group control-group after-add-more">
+                  <input type="text" name="addmore[]" class="form-control" placeholder="TestCase Name">
+                  <div class="input-group-btn">
+                    <button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i> Add Step</button>
+                  </div>
+                </div>
+
+                <div class="copy hide">
+                  <div class="control-group input-group" style="margin-top:10px">
+                      <select class="form-select" aria-label="Default select example">
+                          <option selected>Open this select menu</option>
+                           {% for function, module in function_to_module_map.items %}
+                          <option value="{{ module }}">{{ module }}-{{ function }}</option>
+                          {% endfor %}
+                        </select>
+                    <input type="text" name="addmore[]" class="form-control" placeholder="Enter Name Here">
+                    <div class="input-group-btn">
+                      <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button>
+                    </div>
+                  </div>
+                </div>
+                    </br>
+                   <button class="btn btn-primary" type="submit">Add Test</button>
+
+                </form>
+                <!-- Copy Fields -->
+
+            </div>
+          </div>
+</div>
+      </ul>
+  </div>
+</div>
+{% endblock %}

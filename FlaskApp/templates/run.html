@@ -1,0 +1,18 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Run Suite
+{% endblock %}
+
+
+{% block content %}
+  <h3>Run Suite</h3>
+    <form action="" method = "POST" >
+        {% for field in form %}
+        {{ field.label }}
+        {{ field.name }}
+        {% endfor %}
+      </br></br>
+    <button class="btn btn-primary" type="submit">Run</button>
+    </form>
+{% endblock %}

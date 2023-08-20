@@ -1,0 +1,19 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Logs
+{% endblock %}
+
+
+{% block content %}
+  <h3>Logs</h3>
+{% for log_folder, path in log_folder_list %}
+<a href="{% url 'logDetails' log_location=path %}"> {{ log_folder }} </a>
+</br>
+{% endfor %}
+</br>
+    <form action="" method="POST">
+    {{ date_form }}
+    <button class="btn btn-primary" type="submit">Select Date</button>
+    </form>
+{% endblock %}
